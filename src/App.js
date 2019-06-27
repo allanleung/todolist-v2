@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
 import TodoItem from "./components/TodoItem";
 import TodoList from "./components/TodoList";
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 import TodoInput from "./components/TodoInput";
-//import uuid from 'uuid';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import uuid from 'uuid';
 
 class App extends Component {
     state={
         items:[],
-        id:0,
+        id:uuid(),
         item:'',
         editItem: false
     };
     handleChange = (e) => {
         this.setState({
             item:e.target.value
+        });
+    };
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const newItem = {
+            id:this.state.id,
+            item:this.state.item
+        };
+        console.log(newItem);
+        const updateItems = [...this.state.items,newItem];
+        this.setState({
+            items:updateItems,
+            item:"",
+            id: uuid(),
+            editItem:false
         });
     };
     render() {
@@ -27,7 +41,8 @@ class App extends Component {
 
                         <TodoInput
                             item={this.state.item}
-                            handleChange={this.handleChange}/>
+                            handleChange={this.handleChange}
+                            handleSubmit={this.handleSubmit}/>
                         <TodoList/>
                     </div>
 
